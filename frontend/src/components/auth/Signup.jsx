@@ -18,6 +18,7 @@ const Signup = () => {
                 <FormLabel>Name</FormLabel>
                 <Input
                     placeholder="Enter Your Name"
+                    value={name}
                     onChange={(e) => { setName(e.target.value) }}
                 />
             </FormControl>
@@ -25,6 +26,7 @@ const Signup = () => {
                 <FormLabel>Email</FormLabel>
                 <Input
                     type={"email"}
+                    value={email}
                     placeholder="Enter Your Email"
                     onChange={(e) => { setEmail(e.target.value) }}
                 />
@@ -34,6 +36,7 @@ const Signup = () => {
                 <InputGroup>
                     <Input
                         type={show ? "text" : "password"}
+                        value={password}
                         placeholder="Enter Your Password"
                         onChange={(e) => { setPassword(e.target.value) }}
                     />
@@ -49,6 +52,7 @@ const Signup = () => {
                 <InputGroup>
                     <Input
                         type={show ? "text" : "password"}
+                        value={confirmPassword}
                         placeholder="Enter Your Password"
                         onChange={(e) => { setConfirmPassword(e.target.value) }}
                     />
@@ -65,6 +69,7 @@ const Signup = () => {
                 <Input
                     type="file"
                     p={1.5}
+                    value={pic}
                     accept="image/*"
                     onChange={(e) => postDetails(e.target.files[0])}
                 />
