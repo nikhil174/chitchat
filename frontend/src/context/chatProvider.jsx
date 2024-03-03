@@ -7,7 +7,7 @@ const ChatProvider = ({ children }) => {
     const [user, setUser] = useState();
     const history = useHistory();
     const [selectedChat, setSelectedChat] = useState();
-    const [chats, setChats] = useState();
+    const [chats, setChats] = useState([]);
 
     useEffect(() => {
         const userInfo = JSON.parse(localStorage.getItem("chitchat-userInfo"));
