@@ -14,7 +14,7 @@ root.render(
       <ChakraProvider>
         <App />
       </ChakraProvider>
-    </ChatProvider>u
+    </ChatProvider>
     </BrowserRouter>
   </React.StrictMode>
 );
