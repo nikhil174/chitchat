@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { ChatState } from '../context/chatProvider';
 import { Box, FormControl, IconButton, Input, Spinner, Text, useToast } from '@chakra-ui/react';
 import { ArrowBackIcon } from '@chakra-ui/icons';
@@ -6,12 +6,14 @@ import { getSender, getSenderFull } from '../config/ChatLogics';
 import ProfileModal from './ProfileModal';
 import UpdateGroupChatModal from './UpdateGroupChatModal';
 import axios from 'axios';
+import "./styles.css";
+import ScrollableChat from './ScrollableChat';
 
 const SingleChat = ({ fetchAgain, setFetchAgain }) => {
     const [messages, setMessages] = useState([]);
     const [loading, setLoading] = useState(false);
     const [newMessage, setNewMessage] = useState("");
-
+    const { user, selectedChat, setSelectedChat } = ChatState();
     const toast = useToast();
 
     const sendMessage = async (event) => {
@@ -53,7 +55,36 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
         setNewMessage(e.target.value);
     };
 
-    const { user, selectedChat, setSelectedChat } = ChatState();
+    const fetchMessages = async () => {
+        if (!selectedChat) return;
+
+        try {
+            const config = {
+                headers: {
+                    Authorization: `Bearer ${user.token}`
+                }
+            }
+            setLoading(true);
+            const { data } = await axios.get(`/api/message/${selectedChat._id}`, config);
+
+            setMessages(data);
+            setLoading(false);
+        } catch (error) {
+            toast({
+                title: "Error Occured!",
+                description: "Failed to load the messages",
+                status: "error",
+                duration: 5000,
+                isClosable: true,
+                position: "bottom",
+            })
+        }
+    }
+
+    useEffect(() => {
+        fetchMessages();
+    }, [selectedChat])
+
     return (
         <>
             {
@@ -91,6 +122,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                                     <UpdateGroupChatModal
                                         fetchAgain={fetchAgain}
                                         setFetchAgain={setFetchAgain}
+                                        fetchMessages={fetchMessages}
                                     />
                                 </>
                             )}
@@ -115,8 +147,8 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                                     margin="auto"
                                 />
                             ) : (
-                                <div>
-                                    {/* Messages */}
+                                <div className="messages">
+                                    <ScrollableChat messages={messages} />
                                 </div>
                             )}
                             <FormControl
