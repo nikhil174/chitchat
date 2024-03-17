@@ -5,6 +5,7 @@ import axios from 'axios';
 import { AddIcon } from '@chakra-ui/icons';
 import { getSender } from '../config/ChatLogics';
 import GroupChatModal from './GroupChatModal';
+import { BACKEND } from '../config';
 
 const MyChats = ({ fetchAgain }) => {
     const [loggedUser, setLoggedUser] = useState();
@@ -18,7 +19,7 @@ const MyChats = ({ fetchAgain }) => {
                     Authorization: `Bearer ${user.token}`
                 },
             };
-            const { data } = await axios.get('/api/chat', config);
+            const { data } = await axios.get(`${BACKEND.ip}/api/chat`, config);
             setChats(data);
         } catch (error) {
             toast({

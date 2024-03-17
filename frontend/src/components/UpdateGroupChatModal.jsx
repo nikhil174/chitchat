@@ -5,6 +5,7 @@ import { ChatState } from '../context/chatProvider';
 import UserBadgeItem from './UserAvatar/UserBadgeItem';
 import axios from 'axios';
 import UserListItem from './UserAvatar/UserListItem';
+import { BACKEND } from '../config';
 
 const UpdateGroupChatModal = ({ fetchAgain, setFetchAgain, fetchMessages }) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
@@ -49,7 +50,7 @@ const UpdateGroupChatModal = ({ fetchAgain, setFetchAgain, fetchMessages }) => {
             }
 
             console.log(config);
-            const { data } = await axios.put('/api/chat/groupadd', {
+            const { data } = await axios.put(`${BACKEND.ip}/api/chat/groupadd`, {
                 chatId: selectedChat._id,
                 userId: user1._id,
             }, config);
@@ -92,7 +93,7 @@ const UpdateGroupChatModal = ({ fetchAgain, setFetchAgain, fetchMessages }) => {
                 }
             }
 
-            const { data } = await axios.put('/api/chat/groupremove', {
+            const { data } = await axios.put(`${BACKEND.ip}/api/chat/groupremove`, {
                 chatId: selectedChat._id,
                 userId: user1._id,
             }, config);
@@ -123,7 +124,7 @@ const UpdateGroupChatModal = ({ fetchAgain, setFetchAgain, fetchMessages }) => {
                     Authorization: `Bearer ${user.token}`
                 }
             }
-            const { data } = await axios.put('/api/chat/rename', {
+            const { data } = await axios.put(`${BACKEND.ip}/api/chat/rename`, {
                 chatId: selectedChat._id,
                 chatName: groupChatName
             }, config);
@@ -161,7 +162,7 @@ const UpdateGroupChatModal = ({ fetchAgain, setFetchAgain, fetchMessages }) => {
                 }
             }
 
-            const { data } = await axios.get(`/api/user?search=${search}`, config);
+            const { data } = await axios.get(`${BACKEND.ip}/api/user?search=${search}`, config);
 
             setLoading(false);
             setSearchResult(data);

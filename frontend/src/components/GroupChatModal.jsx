@@ -4,6 +4,7 @@ import { ChatState } from '../context/chatProvider';
 import axios from 'axios';
 import UserListItem from './UserAvatar/UserListItem';
 import UserBadgeItem from './UserAvatar/UserBadgeItem';
+import { BACKEND } from '../config';
 
 const GroupChatModal = ({ children }) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
@@ -34,7 +35,7 @@ const GroupChatModal = ({ children }) => {
                 }
             }
 
-            const { data } = await axios.post("/api/chat/group", {
+            const { data } = await axios.post(`${BACKEND.ip}/api/chat/group`, {
                 name: groupChatName,
                 users: selectedUsers.map(u => u._id)
             }, config);

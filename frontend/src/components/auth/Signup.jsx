@@ -2,6 +2,7 @@ import { Button, FormControl, FormLabel, Input, InputGroup, InputRightElement, V
 import axios from 'axios';
 import React, { useState } from 'react'
 import { useHistory } from 'react-router-dom';
+import { BACKEND } from '../../config';
 
 const Signup = () => {
     const [name, setName] = useState("");
@@ -89,7 +90,7 @@ const Signup = () => {
             };
 
             const { data } = await axios.post(
-                '/api/user',
+                `${BACKEND.ip}/api/user`,
                 { name, email, password, pic },
                 config
             );

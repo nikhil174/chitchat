@@ -9,6 +9,7 @@ import ChatLoading from './ChatLoading';
 import UserListItem from './UserAvatar/UserListItem';
 import { getSender } from '../config/ChatLogics';
 import { Effect, NotificationBadge } from 'react-notification-badge';
+import { BACKEND } from '../config';
 
 const SideDrawer = () => {
     const [search, setSearch] = useState("");
@@ -45,7 +46,7 @@ const SideDrawer = () => {
                 }
             }
 
-            const { data } = await axios.get(`/api/user?search=${search}`, config);
+            const { data } = await axios.get(`${BACKEND.ip}/api/user?search=${search}`, config);
 
             setLoading(false);
             setSearchResult(data);
@@ -71,7 +72,7 @@ const SideDrawer = () => {
                 }
             }
 
-            const { data } = await axios.post('/api/chat', { userId }, config);
+            const { data } = await axios.post(`${BACKEND.ip}/api/chat`, { userId }, config);
 
             if (!chats.find((c) => c._id === data._id))
                 setChats([data, ...chats]);

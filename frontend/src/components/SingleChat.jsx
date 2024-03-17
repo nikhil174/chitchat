@@ -11,8 +11,8 @@ import ScrollableChat from './ScrollableChat';
 import io from 'socket.io-client';
 import Lottie from "react-lottie";
 import animationData from '../animations/typing.json';
+import { BACKEND } from '../config';
 
-const ENDPOINT = "http://localhost:5000";
 let socket, selectedChatCompare;
 
 const SingleChat = ({ fetchAgain, setFetchAgain }) => {
@@ -72,7 +72,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
     };
 
     useEffect(() => {
-        socket = io(ENDPOINT);
+        socket = io(BACKEND.ip);
         socket.emit("setup", user);
         socket.on("connected", () => setSocketConnected(true));
         socket.on("typing", () => setIsTyping(true));
@@ -113,7 +113,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                 }
             }
             setLoading(true);
-            const { data } = await axios.get(`/api/message/${selectedChat._id}`, config);
+            const { data } = await axios.get(`${BACKEND.ip}/api/message/${selectedChat._id}`, config);
 
             setMessages(data);
             setLoading(false);
